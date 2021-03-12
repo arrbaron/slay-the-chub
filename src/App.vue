@@ -28,8 +28,6 @@ export default defineComponent({
     const savedCompletedExercises = () => {
       const parsedExercises = JSON.stringify(completedExercises.value);
       localStorage.setItem("completedExercises", parsedExercises);
-
-      alert("saving");
     };
 
     const fetchCompletedExercies = () => {
