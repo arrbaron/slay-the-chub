@@ -1,0 +1,60 @@
+{
+  "exercises": [
+    {
+      "encounterType": "enemy",
+      "exerciseType": "push ups",
+      "repsCompleted": 0,
+      "repsInSet": 5,
+      "id": "1"
+    },
+    {
+      "encounterType": "random",
+      "exerciseType": "leg lifts",
+      "repsCompleted": 0,
+      "repsInSet": 5,
+      "id": "2"
+    },
+    {
+      "encounterType": "elite",
+      "exerciseType": "bicep curls",
+      "repsCompleted": 0,
+      "repsInSet": 5,
+      "id": "3"
+    },
+    {
+      "encounterType": "treasure",
+      "exerciseType": "bridges",
+      "repsCompleted": 0,
+      "repsInSet": 5,
+      "id": "4"
+    },
+    {
+      "encounterType": "shop",
+      "exerciseType": "plank",
+      "repsCompleted": 0,
+      "repsInSet": 30,
+      "id": "5"
+    },
+    {
+      "encounterType": "fire",
+      "exerciseType": "lunges",
+      "repsCompleted": 0,
+      "repsInSet": 5,
+      "id": "6"
+    },
+    {
+      "encounterType": "boss",
+      "exerciseType": "squats",
+      "repsCompleted": 0,
+      "repsInSet": 5,
+      "id": "7"
+    },
+    {
+      "encounterType": "spire",
+      "exerciseType": "burpees",
+      "repsCompleted": 0,
+      "repsInSet": 5,
+      "id": "8"
+    }
+  ]
+}
