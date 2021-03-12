@@ -34,7 +34,6 @@ export default defineComponent({
 
     const fetchCompletedExercies = () => {
       const exercisesJSON = localStorage.getItem("completedExercises");
-      console.log(exercisesJSON);
       if (exercisesJSON) {
         completedExercises.value = JSON.parse(exercisesJSON);
       }
