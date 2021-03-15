@@ -1,8 +1,5 @@
 <template>
   <fieldset>
-    <button @click="onRemoveExercise()" class="delete-button">
-      <img src="../assets/icons/delete.png" />
-    </button>
     <div class="input-group">
       <label for="encounterType">Encounter</label>
       <input
@@ -38,6 +35,9 @@
         id="repsInSet"
       />
     </div>
+    <button @click="onRemoveExercise($event)" class="delete-button">
+      <img src="../assets/icons/delete.png" />
+    </button>
   </fieldset>
 </template>
 
@@ -54,8 +54,13 @@ export default defineComponent({
   },
   emits: ["removeExercise", "updateExercise"],
   setup(props, context) {
-    const onRemoveExercise = (): void => {
-      context.emit("removeExercise", props.exercise.id);
+    /** Methods */
+    const onRemoveExercise = (e: Event): void => {
+      e.preventDefault();
+
+      if (window.confirm("Are you sure you want to delete this exercise?")) {
+        context.emit("removeExercise", props.exercise.id);
+      }
     };
 
     const onUpdateExercise = (key: string, value: any): void => {
@@ -73,7 +78,11 @@ fieldset {
   align-items: flex-end;
   position: relative;
 
-  width: 85%;
+  width: 90%;
+}
+
+.input-group {
+  margin-right: 0.5rem;
 }
 
 .delete-button {
@@ -94,8 +103,8 @@ fieldset {
     width: 100%;
   }
 
-  .delete-button {
-    left: -7rem;
+  .input-group {
+    margin-right: 2rem;
   }
 }
 </style>

@@ -10,11 +10,14 @@
 
     <div class="form-footer">
       <div class="buttons">
-        <button @click="addNewExercise($event)">+</button>
+        <button @click="addNewExercise($event)" class="button">
+          Add Exercise
+        </button>
         <button
           @click="onSaveExercises($event)"
-          :disabled="!formIsValid"
+          :disabled="!formIsValid || !formIsDirty"
           type="submit"
+          class="button"
         >
           Save
         </button>
@@ -37,19 +40,22 @@ export default defineComponent({
       type: Object as PropType<IExercise[]>,
       required: true,
     },
+    formIsDirty: {
+      type: Boolean,
+      required: true,
+    },
   },
-  setup(props) {
+  emits: ["setFormIsDirty"],
+  setup(props, context) {
+    /** Injected properties and methods */
     const saveExercises = inject("saveExercises") as any;
+    const completedExercises = inject("completedExercises") as any;
     const clearCompletedExercises = inject("clearCompletedExercises") as any;
 
-    const emptyExerciseGroup = {
-      encounterType: "",
-      exerciseType: "",
-      repsInSet: 0,
-      repsCompleted: 0,
-      id: uuidv4(),
-    };
+    /** Reactive properties */
     const exercises = ref(props.savedExercises);
+
+    /** Methods */
     const formIsValid = computed(() => {
       return exercises.value.every((exercise: IExercise) => {
         return (
@@ -63,19 +69,34 @@ export default defineComponent({
 
     const addNewExercise = (e: Event): void => {
       e.preventDefault();
-      exercises.value = [
-        ...exercises.value,
-        { ...emptyExerciseGroup, id: uuidv4() },
-      ];
+
+      const emptyExerciseGroup = {
+        encounterType: "",
+        exerciseType: "",
+        repsInSet: 0,
+        repsCompleted: 0,
+        id: uuidv4(),
+      };
+
+      exercises.value = [...exercises.value, emptyExerciseGroup];
+
+      const footerElement = document.querySelector("footer");
+      if (footerElement) {
+        footerElement.scrollIntoView();
+      }
     };
 
     const removeExercise = (id: string): void => {
+      context.emit("setFormIsDirty", true);
+
       exercises.value = exercises.value.filter(
-        (exercise: any) => exercise.id !== id
+        (exercise: IExercise) => exercise.id !== id
       );
     };
 
     const updateExercise = (updatedExercise: IExercise): void => {
+      context.emit("setFormIsDirty", true);
+
       exercises.value = exercises.value.map((exercise: IExercise) => {
         return exercise.id === updatedExercise.id ? updatedExercise : exercise;
       });
@@ -83,6 +104,18 @@ export default defineComponent({
 
     const onSaveExercises = (e: Event): void => {
       e.preventDefault();
+
+      if (completedExercises.value.length > 0) {
+        if (
+          !window.confirm(
+            "Saving these changes will clear your completed exercises. Are you sure you want to proceed?"
+          )
+        ) {
+          return;
+        }
+      }
+
+      context.emit("setFormIsDirty", false);
       saveExercises(exercises.value);
       clearCompletedExercises();
     };
@@ -100,6 +133,10 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+form {
+  margin: 0 auto;
+}
+
 .form-footer {
   width: 100%;
   display: flex;
