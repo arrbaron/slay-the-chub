@@ -4,27 +4,26 @@
     <div class="buttons">
       <button
         @click="onClearCompletedExercises"
+        :disabled="completedExercises.length < 1"
         class="button button-clear"
         href="#"
       >
-        Clear
+        Reset
       </button>
     </div>
     <table>
       <thead>
         <tr>
-          <th>Encounter Type</th>
+          <th>Encounter</th>
           <th>Exercise</th>
-          <th>Reps Completed</th>
+          <th>Reps</th>
         </tr>
       </thead>
       <tbody>
         <ExerciseRow
           v-for="exercise in completedExercises"
-          @updateExercise="updateExercise"
           :exercise="exercise"
           :key="exercise.id"
-          :isEditing="isEditing"
         />
       </tbody>
     </table>
@@ -40,19 +39,20 @@ export default defineComponent({
   name: "ExerciseTable",
   components: { ExerciseRow },
   setup() {
+    /** Injected properties and methods */
     const completedExercises = inject("completedExercises") as Ref<IExercise[]>;
-    const updateExercise = inject("updateExercise");
     const clearCompletedExercises = inject("clearCompletedExercises") as any;
 
-    const onClearCompletedExercises = () => clearCompletedExercises();
-
-    const isEditing = ref(false);
+    /** Methods */
+    const onClearCompletedExercises = () => {
+      if (window.confirm("Reset all completed exercises?")) {
+        clearCompletedExercises();
+      }
+    };
 
     return {
       completedExercises,
-      updateExercise,
       onClearCompletedExercises,
-      isEditing,
     };
   },
 });

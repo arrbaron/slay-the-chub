@@ -23,10 +23,4 @@ p {
   height: 100px;
   background: cornflowerblue;
 }
-
-.column:nth-of-type(2n) {
-  p {
-    background: gainsboro;
-  }
-}
 </style>

@@ -20,9 +20,11 @@ export default defineComponent({
   name: "ExerciseButtons",
   components: {},
   setup() {
+    /** Injected properties and methods */
     const exercises = inject("exercises") as Ref<IExercise[]>;
     const addCompletedExercise = inject("addCompletedExercise") as any;
 
+    /** Methods */
     const onAddCompletedExercise = (exerciseId: string): void => {
       addCompletedExercise(exerciseId);
     };
