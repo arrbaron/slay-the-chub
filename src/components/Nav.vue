@@ -1,6 +1,7 @@
 <template>
   <nav id="nav">
     <router-link class="router-link" to="/home">Slay it :)</router-link>
+    <router-link class="router-link" to="/customize">Customize >:)</router-link>
     <router-link class="router-link" to="/why">:\ Why?</router-link>
   </nav>
 </template>

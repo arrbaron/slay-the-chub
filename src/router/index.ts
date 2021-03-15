@@ -8,6 +8,12 @@ const routes: Array<RouteRecordRaw> = [
     component: Home
   },
   {
+    path: "/customize",
+    name: "Customize",
+    component: () =>
+      import(/* webpackChunkName: "customize" */ "../views/Customize.vue")
+  },
+  {
     path: "/why",
     name: "Why",
     component: () =>

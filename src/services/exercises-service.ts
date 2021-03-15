@@ -1,4 +1,4 @@
-import { ref, PropType } from 'vue';
+import { ref } from 'vue';
 
 import * as exercisesJSON from '../data/exercises.json';
 

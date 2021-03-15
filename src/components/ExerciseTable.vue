@@ -9,14 +9,6 @@
       >
         Clear
       </button>
-      <!-- <template v-if="isEditing">
-      <button @click="onUpdateExercise()" class="button button-clear" href="#">
-        Save
-      </button>
-      <button @click="isEditing = false" class="button button-clear" href="#">
-        Cancel
-      </button>
-    </template> -->
     </div>
     <table>
       <thead>

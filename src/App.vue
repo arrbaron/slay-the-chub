@@ -16,7 +16,7 @@ export default defineComponent({
   name: "App",
   components: { Nav },
   setup(): void {
-    const exercises = ref(exercisesJSON.exercises);
+    const exercises = ref(exercisesJSON.exercises) as any;
     const completedExercises = ref([]) as Ref<IExercise[]>;
 
     const updateExercise = (updatedExercise: IExercise) => {
@@ -30,10 +30,15 @@ export default defineComponent({
       localStorage.setItem("completedExercises", parsedExercises);
     };
 
-    const fetchCompletedExercies = () => {
-      const exercisesJSON = localStorage.getItem("completedExercises");
+    const fetchFromStorage = () => {
+      const completedExercisesJSON = localStorage.getItem("completedExercises");
+      if (completedExercisesJSON) {
+        completedExercises.value = JSON.parse(completedExercisesJSON);
+      }
+
+      const exercisesJSON = localStorage.getItem("exercises");
       if (exercisesJSON) {
-        completedExercises.value = JSON.parse(exercisesJSON);
+        exercises.value = JSON.parse(exercisesJSON);
       }
     };
 
@@ -73,8 +78,14 @@ export default defineComponent({
       localStorage.removeItem("completedExercises");
     };
 
+    const saveExercises = (savedExercises: IExercise[]) => {
+      exercises.value = savedExercises;
+      const parsedExercises = JSON.stringify(savedExercises);
+      localStorage.setItem("exercises", parsedExercises);
+    };
+
     onMounted(() => {
-      fetchCompletedExercies();
+      fetchFromStorage();
     });
 
     provide("exercises", exercises);
@@ -82,6 +93,7 @@ export default defineComponent({
     provide("updateExercise", updateExercise);
     provide("addCompletedExercise", addCompletedExercise);
     provide("clearCompletedExercises", clearCompletedExercises);
+    provide("saveExercises", saveExercises);
   },
 });
 </script>
