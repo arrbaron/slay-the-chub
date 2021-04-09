@@ -9,6 +9,9 @@
 
 <script lang="ts">
 import { defineComponent, provide, ref, Ref, onMounted } from "vue";
+import { format } from "date-fns";
+import { v4 as uuidv4 } from "uuid";
+
 import Nav from "@/components/Nav.vue";
 import * as exercisesJSON from "./data/exercises.json";
 import IExercise from "./models/IExercise";
@@ -20,6 +23,7 @@ export default defineComponent({
     /** Reactive properties */
     const exercises = ref(exercisesJSON.exercises) as any;
     const completedExercises = ref([]) as Ref<IExercise[]>;
+    const completedWorkouts = ref([]) as any;
 
     /** Methods */
     const updateExercise = (updatedExercise: IExercise) => {
@@ -28,7 +32,7 @@ export default defineComponent({
       });
     };
 
-    const savedCompletedExercises = () => {
+    const saveCompletedExercises = () => {
       const parsedExercises = JSON.stringify(completedExercises.value);
       localStorage.setItem("completedExercises", parsedExercises);
     };
@@ -42,6 +46,11 @@ export default defineComponent({
       const exercisesJSON = localStorage.getItem("exercises");
       if (exercisesJSON) {
         exercises.value = JSON.parse(exercisesJSON);
+      }
+
+      const workoutsJSON = localStorage.getItem("workouts");
+      if (workoutsJSON) {
+        completedWorkouts.value = JSON.parse(workoutsJSON);
       }
     };
 
@@ -73,7 +82,7 @@ export default defineComponent({
         ];
       }
 
-      savedCompletedExercises();
+      saveCompletedExercises();
     };
 
     const clearCompletedExercises = () => {
@@ -87,6 +96,23 @@ export default defineComponent({
       localStorage.setItem("exercises", parsedExercises);
     };
 
+    const saveWorkout = (exercises: any) => {
+      const id = uuidv4();
+
+      completedWorkouts.value = [
+        ...completedWorkouts.value,
+        {
+          exercises: exercises.value,
+          date: format(new Date(), "Pp"),
+          id,
+        },
+      ];
+
+      const parsedWorkouts = JSON.stringify(completedWorkouts.value);
+      localStorage.setItem("workouts", parsedWorkouts);
+      clearCompletedExercises();
+    };
+
     /** Lifecycle hooks */
     onMounted(() => {
       fetchFromStorage();
@@ -95,16 +121,26 @@ export default defineComponent({
     /** Provided properties and methods */
     provide("exercises", exercises);
     provide("completedExercises", completedExercises);
+    provide("completedWorkouts", completedWorkouts);
     provide("updateExercise", updateExercise);
     provide("addCompletedExercise", addCompletedExercise);
     provide("clearCompletedExercises", clearCompletedExercises);
     provide("saveExercises", saveExercises);
+    provide("saveWorkout", saveWorkout);
   },
 });
 </script>
 
 
 <style lang="scss">
+:root {
+  --ironclad-color: #9d3133;
+  --silent-color: #4c7f3a;
+  --defect-color: #296c94;
+  --watcher-color: #5a397a;
+  --theme-color: var(--ironclad-color);
+}
+
 html,
 body {
   max-width: 100%;
@@ -127,6 +163,11 @@ body {
 .button {
   height: 6rem;
   touch-action: manipulation;
+  background: var(--theme-color);
+}
+
+.button-clear {
+  color: var(--theme-color) !important;
 }
 
 @media only screen and (min-width: 768px) {

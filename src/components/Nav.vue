@@ -2,16 +2,19 @@
   <nav id="nav">
     <router-link class="router-link" to="/home">Slay it :)</router-link>
     <router-link class="router-link" to="/customize">Customize >:)</router-link>
+    <router-link class="router-link" to="/history">History</router-link>
     <router-link class="router-link" to="/why">:\ Why?</router-link>
   </nav>
+  <ThemePicker />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import ThemePicker from "@/components/ThemePicker.vue";
 
 export default defineComponent({
   name: "Nav",
-  components: {},
+  components: { ThemePicker },
 });
 </script>
 

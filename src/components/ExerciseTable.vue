@@ -10,6 +10,14 @@
       >
         Reset
       </button>
+      <button
+        @click="onSaveWorkout"
+        :disabled="completedExercises.length < 1"
+        class="button button-clear"
+        href="#"
+      >
+        Save
+      </button>
     </div>
     <table>
       <thead>
@@ -31,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, ref, Ref } from "vue";
+import { defineComponent, inject, Ref } from "vue";
 import IExercise from "@/models/IExercise";
 import ExerciseRow from "@/components/ExerciseRow.vue";
 
@@ -42,6 +50,7 @@ export default defineComponent({
     /** Injected properties and methods */
     const completedExercises = inject("completedExercises") as Ref<IExercise[]>;
     const clearCompletedExercises = inject("clearCompletedExercises") as any;
+    const saveWorkout = inject("saveWorkout") as any;
 
     /** Methods */
     const onClearCompletedExercises = () => {
@@ -50,9 +59,14 @@ export default defineComponent({
       }
     };
 
+    const onSaveWorkout = () => {
+      saveWorkout(completedExercises);
+    };
+
     return {
       completedExercises,
       onClearCompletedExercises,
+      onSaveWorkout,
     };
   },
 });

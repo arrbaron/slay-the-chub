@@ -5,9 +5,9 @@
       <input
         @input="onUpdateExercise('encounterType', $event.currentTarget.value)"
         :value="exercise.encounterType"
+        :id="exercise.id + '-encounterType'"
         type="text"
         placeholder="e.g. Enemy"
-        id="encounterType"
       />
     </div>
     <div class="input-group">
@@ -15,9 +15,9 @@
       <input
         @input="onUpdateExercise('exerciseType', $event.currentTarget.value)"
         :value="exercise.exerciseType"
+        :id="exercise.id + '-exerciseType'"
         type="text"
         placeholder="e.g. Push ups"
-        id="exerciseType"
       />
     </div>
     <div class="input-group">
@@ -30,9 +30,9 @@
           )
         "
         :value="exercise.repsInSet"
+        :id="exercise.id + '-repsInSet'"
         type="number"
         placeholder="0"
-        id="repsInSet"
       />
     </div>
     <button @click="onRemoveExercise($event)" class="delete-button">
