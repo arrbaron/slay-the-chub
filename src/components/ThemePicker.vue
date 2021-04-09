@@ -50,6 +50,7 @@ export default defineComponent({
   position: absolute;
   top: 0;
   right: 0;
+  z-index: inherit; //TODO: Remove
 }
 
 #color-picker {
